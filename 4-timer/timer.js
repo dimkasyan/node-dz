@@ -21,7 +21,7 @@ function parseTimeArguments(args) {
       : 0;
 
     return Number(
-      (hours * 3600 || 0) + (minutes * 60 || 0) + (seconds || 0) * 1000,
+      ((hours * 3600 || 0) + (minutes * 60 || 0) + (seconds || 0)) * 1000,
     );
   } else {
     throw new Error("Нужно передать время корректно в формате hh mm ss");
