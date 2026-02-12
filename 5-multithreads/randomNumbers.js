@@ -1,5 +1,6 @@
 const performance = require('perf_hooks');
-const counterCore = 14;
+const os = require('os');
+const counterCore = os.cpus().length;
 
 function randomNumbers() {
     const arr = [];
@@ -9,8 +10,12 @@ function randomNumbers() {
     return arr;
 }
 
-function counterRandomNumbers(array) {
+function counterRandomNumbers({ array }) {
     let counter = 0;
+
+    if (!Array.isArray(array)) {
+        throw new Error('Argument must be an array');
+    }
 
     array.forEach((el) => {
         if (el % 3 === 0) {
@@ -18,7 +23,7 @@ function counterRandomNumbers(array) {
         }
     });
 
-    console.log(`Сумма чисел, кратных 3: ${counter}`);
+    return counter;
 }
 
 function splitSubArray(array) {

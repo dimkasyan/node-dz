@@ -15,7 +15,7 @@ function main() {
 
 function syncFunction(array) {
   performance.mark("sync start");
-  counterRandomNumbers(randomNumbers());
+  counterRandomNumbers({ array: randomNumbers() });
 
   performance.mark("sync end");
 
@@ -36,20 +36,25 @@ function forkFunction(array) {
 }
 
 const forkHandler = async () => {
-    performance.mark("fork start");
+  performance.mark("fork start");
+
   try {
     const subArray = splitSubArray(randomNumbers());
 
     const arrayForkPromises = [];
 
     for (let i = 0; i < subArray.length; i++) {
-      arrayForkPromises.push(forkFunction(counterRandomNumbers(subArray[i])));
+      arrayForkPromises.push(forkFunction(subArray[i]));
     }
 
-    await Promise.all(arrayForkPromises).then((result) => console.log(result));
+    await Promise.all(arrayForkPromises).then((result) => {
+      const summ = result.reduce((acc, el) => acc + el, 0);
+      console.log(summ);
+    });
   } catch (error) {
     console.error(error.message);
   }
+
   performance.mark("fork end");
 
   performance.measure("fork", "fork start", "fork end");
