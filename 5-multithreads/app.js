@@ -24,7 +24,7 @@ function syncFunction(array) {
 }
 
 function forkFunction(array) {
-  new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const forkProcess = fork("./fork.js");
 
     forkProcess.send({ array });
